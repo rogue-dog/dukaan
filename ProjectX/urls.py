@@ -15,7 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from UserApi import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('signup', views.SignUp),
+    path('login', views.login),
+    path('item/post', views.add_item),
+    path('item/get', views.GetItem.as_view()),
+    path('check/email', views.EmailVerification),
+    path('check/otp', views.OTPCheck),
+    path('add/cart', views.add_cart),
+    path('get/cart', views.get_cart),
+
 ]
