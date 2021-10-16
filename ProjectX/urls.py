@@ -27,5 +27,7 @@ urlpatterns = [
     path('check/otp', views.OTPCheck),
     path('add/cart', views.add_cart),
     path('get/cart', views.get_cart),
+    path('order/place', views.place_order),
+    path('order/get', views.get_order),
 
 ]

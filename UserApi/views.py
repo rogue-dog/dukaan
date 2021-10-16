@@ -1,9 +1,10 @@
 from django.http import response
 from django.shortcuts import render
+import rest_framework
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics, serializers
-from UserApi.models import Cart, Item, User, UserVerification
+from UserApi.models import Cart, Item, Order, User, UserVerification
 from UserApi.send_otp import send_otp
 from UserApi.serializers import ItemSerializers
 
@@ -90,3 +91,32 @@ def get_cart(req):
         cart = Cart.objects.get(user_id=user_id)
         return(Response({"success": True, "items": getattr(cart, "items"), "total": getattr(cart, "total")}))
     return(Response({"success": False, "message": "No Existing Cart Found, Please Add something to Cart"}))
+
+
+@api_view(['POST'])
+def place_order(req):
+    user_id = req.data['user_id']
+    items = req.data['items']
+    total = req.data['total']
+    order = Order(user_id=user_id, items=items, total=total)
+    order.save(force_insert=True)
+    Cart.objects.filter(user_id=user_id).delete()
+    return (Response({"success": True, "datetime": order.datetime}))
+
+
+@api_view(['GET'])
+def get_order(req):
+    user_id = req.headers['userId']
+    if(Order.objects.filter(user_id=user_id).exists()):
+        quer = Order.objects.filter(user_id=user_id).order_by("datetime")
+        success = True
+        orders = []
+        for order in quer:
+            details = {
+                "items": getattr(order, "items"),
+                "datetime": getattr(order, "datetime"),
+                "total": getattr(order, "total")
+            }
+            orders.append(details)
+        return (Response({"success": True, "details": orders}))
+    return(Response({"success": False}))
