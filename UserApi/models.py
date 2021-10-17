@@ -15,7 +15,7 @@ class User(models.Model):
 
 class Item (models.Model):
     item_name = models.CharField(max_length=250)
-    id = models.CharField(primary_key=True, auto_created=True, max_length=200)
+
     price = models.IntegerField()
     image_url = models.CharField(max_length=250)
 

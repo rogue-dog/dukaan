@@ -47,7 +47,7 @@ def add_item(req):
     item_name = req.data['item_name']
     image_url = req.data['image_url']
     new_item = Item(price=price, item_name=item_name, image_url=image_url)
-    new_item.save()
+    new_item.save(force_insert=True)
     return(Response({"success": True}))
 
 
