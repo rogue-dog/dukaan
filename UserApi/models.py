@@ -11,30 +11,9 @@ class User(models.Model):
     email = models.CharField(max_length=250, primary_key=True)
     password = models.CharField(max_length=250)
     name = models.CharField(max_length=100)
-
-
-class Item (models.Model):
-    item_name = models.CharField(max_length=250)
-
-    price = models.IntegerField()
-    image_url = models.CharField(max_length=250)
-
-
-class Cart(models.Model):
-    user_id = models.CharField(max_length=250, primary_key=True)
-    items = models.JSONField(default=dict)
-    total = models.IntegerField()
+    phone = models.CharField(max_length=12)
 
 
 class UserVerification(models.Model):
     email = models.CharField(max_length=250, primary_key=True)
     otp = models.CharField(max_length=4)
-
-
-class Order(models.Model):
-    items = models.JSONField()
-
-    total = models.IntegerField()
-    datetime = models.DateTimeField(auto_now=True)
-
-    user_id = models.CharField(max_length=250)
